@@ -90,3 +90,9 @@ The logged data file will be saved under:
 /home/username/pyobd-pi/log/
 
 Enjoy and drive safe!</pre>
+
+## Installing PyOSC ##
+
+1. Download the PyOSC package from https://pypi.python.org/pypi/pyOSC
+2. Unpack and inside the pyOSC folder just run $ sudo python setup.py install
+
