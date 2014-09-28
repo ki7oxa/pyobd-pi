@@ -94,5 +94,9 @@ Enjoy and drive safe!</pre>
 ## Installing PyOSC ##
 
 1. Download the PyOSC package from https://pypi.python.org/pypi/pyOSC
+#   wget https://pypi.python.org/packages/source/p/pyOSC/pyOSC-0.3.5b-5294.tar.gz
 2. Unpack and inside the pyOSC folder just run $ sudo python setup.py install
+#   tar zxvf pyOSC-0.3.5b-5294.tar.gz
+#   cd pyOSC-0.3.5b-5294/
+#   sudo python setup.py install   
 
