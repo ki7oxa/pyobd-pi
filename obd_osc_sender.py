@@ -17,9 +17,10 @@ class OBD_Recorder():
         self.port = None
         self.sensorlist = []
         localtime = time.localtime(time.time())
-        #filename = path+"car-"+str(localtime[0])+"-"+str(localtime[1])+"-"+str(localtime[2])+"-"+str(localtime[3])+"-"+str(localtime[4])+"-"+str(localtime[5])+".log"
-        #self.log_file = open(filename, "w", 128)
-        #self.log_file.write("Time,RPM,MPH,Throttle,Load,Fuel Status\n");
+	#if don't want to log to file comment the log_file lines
+        filename = path+"car-"+str(localtime[0])+"-"+str(localtime[1])+"-"+str(localtime[2])+"-"+str(localtime[3])+"-"+str(localtime[4])+"-"+str(localtime[5])+".log"
+        self.log_file = open(filename, "w", 128)
+        self.log_file.write("Time,RPM,MPH,Throttle,Load,Fuel Status\n");
 
         for item in log_items:
             self.add_log_item(item)
@@ -78,7 +79,7 @@ class OBD_Recorder():
                 message = OSCMessage()
                 message.setAddress("/"+obd_sensors.SENSORS[index].shortname)
                 message.append(value)
-                client.send(message)
+                self.client.send(message)
 
             gear = self.calculate_gear(results["rpm"], results["speed"])
             log_string = log_string #+ "," + str(gear)
@@ -86,8 +87,8 @@ class OBD_Recorder():
             message = OSCMessage()
             message.setAddress("/gear")
             message.append(gear)
-            client.send(message)
-            #self.log_file.write(log_string+"\n")
+            self.client.send(message)
+            self.log_file.write(log_string+"\n")
 
             
     def calculate_gear(self, rpm, speed):
@@ -110,8 +111,13 @@ class OBD_Recorder():
         gear = min((abs(current_gear_ratio - i), i) for i in self.gear_ratios)[1] 
         return gear
         
-username = getpass.getuser()  
+username = getpass.getuser()
+
+#The list of sensors; Look in the obd_sensors.py line 139 for the complete list
+#Add or remove sensors in the list; More sensors smaller refresh rate
 logitems = ["rpm", "speed", "throttle_pos", "load", "fuel_status"]
+
+#if running on other system than linux put bellow the correct path
 o = OBD_Recorder('/home/'+username+'/pyobd-pi/log/', logitems)
 o.connect()
 
